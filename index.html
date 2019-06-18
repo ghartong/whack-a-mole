@@ -143,6 +143,9 @@
                 0%   {font-size: 0;}
                 100% {font-size: 8vw;}
             }
+            button.hide {
+                display: none;
+            }
             .red {
                 color: red !important;
             }
@@ -169,9 +172,9 @@
                     <span class="mole-house"><a href="" class="mole-hole" id="hole-8">&nbsp;</a></span>
                 </div>
                 <footer id="game-footer">
-                    <button onClick="onPause()">Pause</button>
-                    <button onClick="onStart()">Start</button>
-                    <button onClick="onReset()">Reset</button>
+                    <button onClick="onPause()" id="btn-pause" class="hide">Pause</button>
+                    <button onClick="onStart()" id="btn-start">Start</button>
+                    <button onClick="onReset()" id="btn-reset">Reset</button>
                 </footer>
             </div>
         </div>
@@ -201,6 +204,8 @@
             var noticeScreen = document.getElementById('game-notice'); // get the notice overlay element
             var gameTimeDisplay = document.getElementById('game-timer'); // get the timer element
             var levelDisplay = document.getElementById('level-label'); // get the Level display element 
+            var pauseButton = document.getElementById('btn-pause'); // get the pause button
+            var startButton = document.getElementById('btn-start'); // get the start button
 
             /********** GAME LOGIC **************/
             var setScreenNotice = noticeType => {
@@ -236,11 +241,21 @@
                 // wait 1 second,
                 setTimeout( () => {
                     // remove overlay
-                    setScreenNotice('none')
+                    setScreenNotice('none');
 
                     // start clock
-                    startGameClock()
+                    startGameClock();
                 }, 1000)
+            }
+
+            showStartButton = () => {
+                pauseButton.className = 'hide';
+                startButton.className = '';
+            }
+
+            showPauseButton = () => {
+                pauseButton.className = '';
+                startButton.className = 'hide';
             }
 
             /********** CLOCK LOGIC **************/
@@ -255,6 +270,9 @@
             var resetGameClock = () => {
                 // stop the timer
                 clearInterval(gameClock);
+
+                // stop any dancing moles
+                clearTimeout(danceClock);
 
                 // set game time to the current level's time
                 gameTime = levelTime;
@@ -271,7 +289,7 @@
 
             var gameTimer = () => {
                 if(gameTime <= 6 && gameTime > 0) {
-                    setTimerAlert()
+                    setTimerAlert();
                 } 
                 
                 if(gameTime === 0) {
@@ -288,12 +306,19 @@
                 // stop the timer
                 clearInterval(gameClock);
 
+                // stop any dancing moles
+                clearTimeout(danceClock);
+
                 // reset the UI clock to zero
                 document.getElementById("timer-seconds").innerHTML = 0;
             }
 
             var pauseGameClock = () => {
+                // stop the timer
                 clearInterval(gameClock);
+
+                // stop any dancing moles
+                clearTimeout(danceClock);
             }
 
             var setTimerAlert = () => {
@@ -362,6 +387,9 @@
             /********** BUTTON LOGIC **************/
             // confirmed es6 arrow functions work in IE11 https://caniuse.com/#search=es6%20arrow
             var onPause = () => {
+                // toggle pause/start buttons display
+                showStartButton();
+
                 // stop the timer
                 pauseGameClock();
 
@@ -373,6 +401,9 @@
             }  
 
             var onStart = () => {
+                // toggle pause/start buttons display
+                showPauseButton();
+
                 if (isGamePaused) {
                     // un-pause
                     isGamePaused = false;
