@@ -179,10 +179,10 @@
         <script>
             // TODO
             /*
-                - mole dance
                 - animate moles
                 - hide or disable buttons when they shouldn't be clicked...no pause unless game is started, etc.
                 - pretty buttons
+                - format single digit seconds on game clock
             */
 
             /********** VARIABLES **************/
@@ -193,6 +193,7 @@
             var levelTime = 60; /* defaulting to 60 seconds */
             var gameTime = 60; /* game time gets updated in timer below, levelTime acts as default game time */
             var gameClock; /* global variable placeholder for our timer */
+            var danceClock; /* global variable placeholder for our dance timer */
             var isGamePaused = false; /* flag to determine if game is in paused state */
             var molesToProgress = 10; /* number of moles needed to level up, must catch them in faster than game time */
             var score = defaultScore; /* confirmed hits */
@@ -331,6 +332,9 @@
             var onScore = id => {
                 console.log('Hit on', id);
 
+                //stop the mole dance so he doesn't move again too soon, although...it would add some difficulty to the game!
+                clearTimeout(danceClock);
+
                 // add a point to the score variable
                 score++;
                 
@@ -437,9 +441,16 @@
                 // display the mole by adding .mole to the hole
                 addMoles(moleHole);
 
+                // get random amount of time per the requirements
+                var danceTime = Math.floor((Math.random() * 4) + 1) * 1000; // let the mole dance for 1-5 seconds
                 // start dance timer
-                    // when time is up, clear the .mole from the hole
-                    // and start mole dance again, if game time has not expired
+                    danceClock = setTimeout( () => {
+                        // when time is up, clear the .mole from the hole
+                        // and start mole dance again, if game time has not expired
+                        if (gameTime) {
+                            startMoleDance();
+                        }
+                    }, danceTime);
             }
 
             var addMoles = id => {
