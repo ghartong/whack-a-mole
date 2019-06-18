@@ -46,6 +46,7 @@
                 background-color: black;
                 color: lime;
                 margin: 0;
+                padding-bottom: 5px;
                 text-align: center;
             }
             #game-footer {
@@ -60,6 +61,7 @@
                 flex: 1 1 auto; /* positions the screen in middle of header and footer vertically */
                 flex-wrap: wrap;
                 padding: 10px;
+                position: relative;
             }
             .mole-house {
                 align-items: center; /* to get mole hole in middle */
@@ -87,6 +89,38 @@
             .mole:before {
                 content: "MOLE"
             }
+            #game-notice {
+                display: none;
+            }
+            /* TODO vw animation not working in Safari */
+            .game-over {
+                align-items: center;
+                animation-name: gameOver;
+                animation-duration: 2s;
+                animation-iteration-count: 1;
+                background-color: rgba(0, 0, 0, 0.7);
+                color: red;
+                display: flex !important;
+                flex-direction: column;
+                font-family: "Arial Black", Gadget, sans-serif;
+                font-size: 8vw;
+                height: 100%;
+                justify-content: center;
+                left: 0;
+                position: absolute;
+                top: 0;
+                width: 100%;
+            }
+            .game-over h2:before {
+                content: 'Game Over';
+            }
+            @keyframes gameOver {
+                0%   {font-size: 0;}
+                100% {font-size: 8vw;}
+            }
+            .red {
+                color: red !important;
+            }
         </style>
     </head>
     <body>
@@ -99,6 +133,7 @@
                 </header>
                 <h3 id="game-timer">00:<span id="timer-seconds">00</span></h3>
                 <div id="game-screen">
+                    <div id="game-notice"><h2>&nbsp;</h2></div>
                     <span class="mole-house"><a href="" class="mole-hole" id="hole-1">&nbsp;</a></span>
                     <span class="mole-house"><a href="" class="mole-hole" id="hole-2">&nbsp;</a></span>
                     <span class="mole-house"><a href="" class="mole-hole" id="hole-3">&nbsp;</a></span>
@@ -117,6 +152,16 @@
     </body>
 
     <script>
+        // TODO
+        /*
+            - mole dance
+            - every 10 pts up level
+            - every new level reset game time and game clock
+            - animate moles
+            - hide or disable buttons when they shouldn't be clicked...no pause unless game is started, etc.
+            - pretty buttons
+        */
+
         /********** VARIABLES **************/
         var defaultLevel = 1; /* default value, so we can reset to default later */
         var defaultScore = 0; /* default value, so we can reset to default later */
@@ -129,6 +174,20 @@
         var molesToProgress = 10; /* number of moles needed to level up, must catch them in faster than game time */
         var score = defaultScore; /* confirmed hits */
         var missed = defaultMissed; /* missed attacks */
+        var noticeScreen = document.getElementById('game-notice'); // get the notice overlay element
+        var gameTimeDisplay = document.getElementById('game-timer'); // get the timer element
+
+        /********** GAME LOGIC **************/
+        var setScreenNotice = noticeType => {
+             // sets class of the specified notice
+            switch (noticeType) {
+                case 'gameOver':
+                    noticeScreen.className = 'game-over';
+                break;
+                default:
+                    noticeScreen.className = '';
+            }
+        }
 
         /********** CLOCK LOGIC **************/
         var setGameClock = () => {
@@ -151,14 +210,20 @@
             gameClock = setInterval(function() {
                 gameTimer();
             }, 1000);
+        }
 
-            var gameTimer = () => {
-                if(gameTime === 0) {
-                    stopGameClock();
-                } else {
-                    gameTime--;
-                    document.getElementById("timer-seconds").innerHTML = gameTime;
-                }
+        var gameTimer = () => {
+            if(gameTime <= 6 && gameTime > 0) {
+                setTimerAlert()
+            } 
+            
+            if(gameTime === 0) {
+                stopGameClock();
+                resetTimerAlert();
+                setScreenNotice('gameOver');
+            } else {
+                gameTime--;
+                document.getElementById("timer-seconds").innerHTML = gameTime;
             }
         }
 
@@ -174,6 +239,13 @@
             clearInterval(gameClock);
         }
 
+        var setTimerAlert = () => {
+            gameTimeDisplay.className = 'red'; // sets new class to the timer
+        }
+
+        var resetTimerAlert = () => {
+            gameTimeDisplay.className = ''; // clears class of the timer
+        }
 
         /********** ATTACK LOGIC **************/
         // get all the mole holes
@@ -275,6 +347,9 @@
 
             // make sure we are un-paused
             isGamePaused = false;
+
+            // remove any notices
+            setScreenNotice('none');
         }  
 
         /********** MOLE LOGIC **************/
