@@ -1,0 +1,210 @@
+body {
+    /* page reset */
+    margin: 0;
+    padding: 0;
+}
+
+#main-div {
+    background-color: gray;
+    height: 100vh;
+    /* using viewport units, more reliable */
+}
+
+#cabinet {
+    background-color: silver;
+    display: flex;
+    /* allows the header, game screen and footer to use flex */
+    flex-direction: column;
+    /* sets the orientation of header, game screen and footer */
+    height: 99vh;
+    /* using viewport units, more reliable */
+    margin: 0 auto;
+    padding: 5px;
+    width: 80%;
+}
+
+#game-banner {
+    background-color: black;
+    color: lime;
+    display: flex;
+    /* allows the labels and title to use flex */
+    height: 68px;
+    padding: 15px;
+    text-transform: uppercase;
+}
+
+.banner-value {
+    font-style: italic;
+}
+
+#game-banner h1 {
+    flex: 1 1 auto;
+    /* positions the game title in middle of labels */
+    margin: 0 auto;
+    text-align: center;
+}
+
+#game-timer {
+    background-color: black;
+    color: lime;
+    margin: 0;
+    padding-bottom: 5px;
+    text-align: center;
+}
+
+#game-footer {
+    background-color: black;
+    color: black;
+    padding: 25px;
+    text-align: center;
+}
+
+#game-screen {
+    background-color: green;
+    color: yellow;
+    display: flex;
+    /* allows mole holes to get positioned with flex */
+    flex: 1 1 auto;
+    /* positions the screen in middle of header and footer vertically */
+    flex-wrap: wrap;
+    padding: 10px;
+    position: relative;
+}
+
+.mole-house {
+    align-items: center;
+    /* to get mole hole in middle */
+    border: 1px solid transparent;
+    display: flex;
+    flex: 1 1 20%;
+    /* use all available space, with base width of 20% */
+    flex-direction: column;
+    justify-content: center;
+    /* to get mole hole in middle */
+}
+
+.mole-hole {
+    align-items: center;
+    /* to center text in the link */
+    border: 1px solid white;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    /* to center the text in the link */
+    font-size: 2vw;
+    /* used viewport width to make responsive */
+    /* Viewport is the browser window size. 1vw = 1% of viewport width. */
+    font-weight: bold;
+    height: 45%;
+    justify-content: center;
+    /* to center text in the link */
+    text-align: center;
+    text-decoration: none;
+    width: 45%;
+}
+
+.mole-hole:active {
+    background-color: rgba(255, 0, 0, 0.7);
+    border: 1px solid red;
+}
+
+.mole:active {
+    background-color: rgba(0, 255, 0, 0.7);
+    border: 1px solid lime;
+    color: lime;
+}
+
+.mole:before {
+    content: "MOLE"
+}
+
+#game-notice {
+    display: none;
+}
+
+.game-over {
+    align-items: center;
+    animation-name: gameOver;
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: red;
+    display: flex !important;
+    flex-direction: column;
+    font-family: "Arial Black", Gadget, sans-serif;
+    font-size: 8vh;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.game-over h2:before {
+    content: 'Game Over';
+}
+
+@keyframes gameOver {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.level-up {
+    align-items: center;
+    animation-name: levelUp;
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: greenyellow;
+    display: flex !important;
+    flex-direction: column;
+    font-family: "Arial Black", Gadget, sans-serif;
+    font-size: 2em;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.level-up h2:before {
+    content: 'Level Up!';
+}
+
+@keyframes level-up {
+    0% {
+        font-size: 0;
+    }
+
+    100% {
+        font-size: 2em;
+    }
+}
+
+/* made with CSS Button Generator https://www.bestcssbuttongenerator.com/#/14 */
+#btn-pause { -moz-box-shadow: 0px 1px 0px 0px #fff6af; -webkit-box-shadow: 0px 1px 0px 0px #fff6af; box-shadow: 0px 1px 0px 0px #fff6af; background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffec64), color-stop(1, #ffab23)); background: -moz-linear-gradient(top, #ffec64 5%, #ffab23 100%); background: -webkit-linear-gradient(top, #ffec64 5%, #ffab23 100%); background: -o-linear-gradient(top, #ffec64 5%, #ffab23 100%); background: -ms-linear-gradient(top, #ffec64 5%, #ffab23 100%); background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffec64', endColorstr='#ffab23', GradientType=0); background-color: #ffec64; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; border: 1px solid #ffaa22; display: inline-block; cursor: pointer; color: #333333; font-family: Arial; font-size: 15px; font-weight: bold; padding: 6px 24px; text-decoration: none; text-shadow: 0px 1px 0px #ffee66; }
+#btn-pause:active { position: relative; top: 1px; }
+#btn-start { -moz-box-shadow: 0px 1px 0px 0px #a4e271; -webkit-box-shadow: 0px 1px 0px 0px #a4e271; box-shadow: 0px 1px 0px 0px #a4e271; background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #89c403), color-stop(1, #77a809)); background: -moz-linear-gradient(top, #89c403 5%, #77a809 100%); background: -webkit-linear-gradient(top, #89c403 5%, #77a809 100%); background: -o-linear-gradient(top, #89c403 5%, #77a809 100%); background: -ms-linear-gradient(top, #89c403 5%, #77a809 100%); background: linear-gradient(to bottom, #89c403 5%, #77a809 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#89c403', endColorstr='#77a809', GradientType=0); background-color: #89c403; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; border: 1px solid #74b807; display: inline-block; cursor: pointer; color: #ffffff; font-family: Arial; font-size: 15px; font-weight: bold; padding: 6px 29px; text-decoration: none; text-shadow: 0px 1px 0px #528009; }
+#btn-start:active { position: relative; top: 1px; }
+#btn-reset { -moz-box-shadow: 0px 1px 0px 0px #8a2a21; -webkit-box-shadow: 0px 1px 0px 0px #8a2a21; box-shadow: 0px 1px 0px 0px #8a2a21; background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #c62d1f), color-stop(1, #f24437)); background: -moz-linear-gradient(top, #c62d1f 5%, #f24437 100%); background: -webkit-linear-gradient(top, #c62d1f 5%, #f24437 100%); background: -o-linear-gradient(top, #c62d1f 5%, #f24437 100%); background: -ms-linear-gradient(top, #c62d1f 5%, #f24437 100%); background: linear-gradient(to bottom, #c62d1f 5%, #f24437 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c62d1f', endColorstr='#f24437', GradientType=0); background-color: #c62d1f; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; border: 1px solid #d02718; display: inline-block; cursor: pointer; color: #ffffff; font-family: Arial; font-size: 15px; font-weight: bold; padding: 6px 24px; text-decoration: none; text-shadow: 0px 1px 0px #810e05; }
+#btn-reset:active { position: relative; top: 1px; }
+/* END: made with CSS Button Generator https://www.bestcssbuttongenerator.com/#/14 */
+
+button:focus {
+    outline: 0;
+}
+
+button.hide {
+    display: none !important;
+}
+
+.red {
+    color: red !important;
+}
