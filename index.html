@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
-        <link rel="shortcut icon" href="/favicon.ico">
+        <link rel="apple-touch-icon" sizes="180x180" href="./assets/icons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16x16.png">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#000000">
-        <link rel="manifest" href="/manifest.json">
-        <title>Whack-a-mole GH</title>
-        <style type="text/css">
+        <link rel="manifest" href="./manifest.json">
+        <title>Whack-a-Mole</title>
+        <style>
             body {
                 /* page reset */
                 margin: 0;
@@ -46,12 +48,14 @@
                 background-color: black;
                 color: lime;
                 margin: 0;
+                padding-bottom: 5px;
                 text-align: center;
             }
             #game-footer {
-                background-color: brown;
+                background-color: black;
                 color: black;
                 padding: 25px;
+                text-align: center;
             }
             #game-screen {
                 background-color: green;
@@ -60,6 +64,7 @@
                 flex: 1 1 auto; /* positions the screen in middle of header and footer vertically */
                 flex-wrap: wrap;
                 padding: 10px;
+                position: relative;
             }
             .mole-house {
                 align-items: center; /* to get mole hole in middle */
@@ -84,8 +89,90 @@
                 text-decoration: none;
                 width: 45%;
             }
+            .mole-hole:active {
+                background-color: rgba(255, 0, 0, 0.7);
+                border: 1px solid red;
+            }
+            .mole:active {
+                background-color: rgba(0, 255, 0, 0.7);
+                border: 1px solid lime;
+                color: lime;
+            }
             .mole:before {
                 content: "MOLE"
+            }
+            #game-notice {
+                display: none;
+            }
+            /* TODO vw animation not working in Safari */
+            .game-over {
+                align-items: center;
+                animation-name: gameOver;
+                animation-duration: 2s;
+                animation-iteration-count: 1;
+                background-color: rgba(0, 0, 0, 0.7);
+                color: red;
+                display: flex !important;
+                flex-direction: column;
+                font-family: "Arial Black", Gadget, sans-serif;
+                font-size: 8vw;
+                height: 100%;
+                justify-content: center;
+                left: 0;
+                position: absolute;
+                top: 0;
+                width: 100%;
+            }
+            .game-over h2:before {
+                content: 'Game Over';
+            }
+            @keyframes gameOver {
+                0%   {font-size: 0;}
+                100% {font-size: 8vw;}
+            }
+            .level-up {
+                align-items: center;
+                animation-name: levelUp;
+                animation-duration: 2s;
+                animation-iteration-count: 1;
+                background-color: rgba(0, 0, 0, 0.7);
+                color: greenyellow;
+                display: flex !important;
+                flex-direction: column;
+                font-family: "Arial Black", Gadget, sans-serif;
+                font-size: 8vw;
+                height: 100%;
+                justify-content: center;
+                left: 0;
+                position: absolute;
+                top: 0;
+                width: 100%;
+            }
+            .level-up h2:before {
+                content: 'Level Up!';
+            }
+            @keyframes level-up {
+                0%   {font-size: 0;}
+                100% {font-size: 8vw;}
+            }
+
+            /* made with CSS Button Generator https://www.bestcssbuttongenerator.com/#/14 */
+            #btn-pause { -moz-box-shadow: 0px 1px 0px 0px #fff6af; -webkit-box-shadow: 0px 1px 0px 0px #fff6af; box-shadow: 0px 1px 0px 0px #fff6af; background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffec64), color-stop(1, #ffab23)); background:-moz-linear-gradient(top, #ffec64 5%, #ffab23 100%); background:-webkit-linear-gradient(top, #ffec64 5%, #ffab23 100%); background:-o-linear-gradient(top, #ffec64 5%, #ffab23 100%); background:-ms-linear-gradient(top, #ffec64 5%, #ffab23 100%); background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffec64', endColorstr='#ffab23',GradientType=0); background-color:#ffec64; -moz-border-radius:6px; -webkit-border-radius:6px; border-radius:6px; border:1px solid #ffaa22; display:inline-block; cursor:pointer; color:#333333; font-family:Arial; font-size:15px; font-weight:bold; padding:6px 24px; text-decoration:none; text-shadow:0px 1px 0px #ffee66; }
+            #btn-pause:active { position:relative; top:1px; }
+            #btn-start { -moz-box-shadow: 0px 1px 0px 0px #a4e271; -webkit-box-shadow: 0px 1px 0px 0px #a4e271; box-shadow: 0px 1px 0px 0px #a4e271; background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #89c403), color-stop(1, #77a809)); background:-moz-linear-gradient(top, #89c403 5%, #77a809 100%); background:-webkit-linear-gradient(top, #89c403 5%, #77a809 100%); background:-o-linear-gradient(top, #89c403 5%, #77a809 100%); background:-ms-linear-gradient(top, #89c403 5%, #77a809 100%); background:linear-gradient(to bottom, #89c403 5%, #77a809 100%); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#89c403', endColorstr='#77a809',GradientType=0); background-color:#89c403; -moz-border-radius:6px; -webkit-border-radius:6px; border-radius:6px; border:1px solid #74b807; display:inline-block; cursor:pointer; color:#ffffff; font-family:Arial; font-size:15px; font-weight:bold; padding:6px 29px; text-decoration:none; text-shadow:0px 1px 0px #528009; }
+            #btn-start:active { position:relative; top:1px; }
+            #btn-reset { -moz-box-shadow: 0px 1px 0px 0px #8a2a21; -webkit-box-shadow: 0px 1px 0px 0px #8a2a21; box-shadow: 0px 1px 0px 0px #8a2a21; background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #c62d1f), color-stop(1, #f24437)); background:-moz-linear-gradient(top, #c62d1f 5%, #f24437 100%); background:-webkit-linear-gradient(top, #c62d1f 5%, #f24437 100%); background:-o-linear-gradient(top, #c62d1f 5%, #f24437 100%); background:-ms-linear-gradient(top, #c62d1f 5%, #f24437 100%); background:linear-gradient(to bottom, #c62d1f 5%, #f24437 100%); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c62d1f', endColorstr='#f24437',GradientType=0); background-color:#c62d1f; -moz-border-radius:6px; -webkit-border-radius:6px; border-radius:6px; border:1px solid #d02718; display:inline-block; cursor:pointer; color:#ffffff; font-family:Arial; font-size:15px; font-weight:bold; padding:6px 24px; text-decoration:none; text-shadow:0px 1px 0px #810e05; }
+            #btn-reset:active { position:relative; top:1px; }
+            /* END: made with CSS Button Generator https://www.bestcssbuttongenerator.com/#/14 */
+
+            button:focus {
+                outline: 0;
+            }
+            button.hide {
+                display: none !important;
+            }
+            .red {
+                color: red !important;
             }
         </style>
     </head>
@@ -97,8 +184,9 @@
                     <h1>Whack-a-mole</h1>
                     <h2>Score: <span class="banner-value" id="score-label">0</span></h2>
                 </header>
-                <h3 id="game-timer">00:<span id="timer-seconds">00</span></h3>
+                <h3 id="game-timer">00:<span id="timer-seconds">60</span></h3>
                 <div id="game-screen">
+                    <div id="game-notice"><h2>&nbsp;</h2></div>
                     <span class="mole-house"><a href="" class="mole-hole" id="hole-1">&nbsp;</a></span>
                     <span class="mole-house"><a href="" class="mole-hole" id="hole-2">&nbsp;</a></span>
                     <span class="mole-house"><a href="" class="mole-hole" id="hole-3">&nbsp;</a></span>
@@ -109,206 +197,323 @@
                     <span class="mole-house"><a href="" class="mole-hole" id="hole-8">&nbsp;</a></span>
                 </div>
                 <footer id="game-footer">
-                    <button onClick="onPause()">Pause</button>
-                    <button onClick="onStart()">Start</button>
-                    <button onClick="onReset()">Reset</button>
+                    <button onClick="onPause()" id="btn-pause" class="hide">Pause</button>
+                    <button onClick="onStart()" id="btn-start">Start</button>
+                    <button onClick="onReset()" id="btn-reset">Reset</button>
                 </footer>
+            </div>
         </div>
-    </body>
 
-    <script>
-        /********** VARIABLES **************/
-        var defaultLevel = 1; /* default value, so we can reset to default later */
-        var defaultScore = 0; /* default value, so we can reset to default later */
-        var defaultMissed = 0; /* default value, so we can reset to default later */
-        var level = defaultLevel; /* current level of game */
-        var levelTime = 60 - ((level - 1) * 5); /* level 1 gets 60 seconds, each progressive level loses 5 seconds */
-        var gameTime = levelTime; /* game time gets updated in timer below, levelTime acts as default game time */
-        var gameClock; /* global variable placeholder for our timer */
-        var isGamePaused = false; /* flag to determine if game is in paused state */
-        var molesToProgress = 10; /* number of moles needed to level up, must catch them in faster than game time */
-        var score = defaultScore; /* confirmed hits */
-        var missed = defaultMissed; /* missed attacks */
+        <script>
+            /********** VARIABLES **************/
+            var defaultLevel = 1; /* default value, so we can reset to default later */
+            var defaultScore = 0; /* default value, so we can reset to default later */
+            var defaultMissed = 0; /* default value, so we can reset to default later */
+            var level = defaultLevel; /* current level of game */
+            var levelTime = 60; /* defaulting to 60 seconds */
+            var gameTime = 60; /* game time gets updated in timer below, levelTime acts as default game time */
+            var gameClock; /* global variable placeholder for our timer */
+            var danceClock; /* global variable placeholder for our dance timer */
+            var isGamePaused = false; /* flag to determine if game is in paused state */
+            var molesToProgress = 10; /* number of moles needed to level up, must catch them in faster than game time */
+            var score = defaultScore; /* confirmed hits */
+            var missed = defaultMissed; /* missed attacks */
+            var noticeScreen = document.getElementById('game-notice'); // get the notice overlay element
+            var gameTimeDisplay = document.getElementById('game-timer'); // get the timer element
+            var levelDisplay = document.getElementById('level-label'); // get the Level display element 
+            var pauseButton = document.getElementById('btn-pause'); // get the pause button
+            var startButton = document.getElementById('btn-start'); // get the start button
+            var secondsDisplay = document.getElementById('timer-seconds'); // get the seconds element of the timer
+            var scoreDisplay = document.getElementById('score-label'); // get the score display element
 
-        /********** CLOCK LOGIC **************/
-        var setGameClock = () => {
-            // set game time to the current level's time
-            gameTime = levelTime;
+            /********** GAME LOGIC **************/
+            var setScreenNotice = noticeType => {
+                // sets class of the specified notice
+                switch (noticeType) {
+                    case 'gameOver':
+                        noticeScreen.className = 'game-over';
+                        break;
+                    case 'levelUp':
+                        noticeScreen.className = 'level-up';
+                        break;
+                    default:
+                        noticeScreen.className = '';
+                }
+            }
 
-            // display game time
-            document.getElementById('timer-seconds').innerHTML = gameTime;
-        }
+            var levelUp = () => {
+                // up the level
+                level++;
 
-        var resetGameClock = () => {
-            // set game time to the current level's time
-            gameTime = levelTime;
+                // update the display
+                levelDisplay.innerHTML = level;
 
-            // display game time
-            document.getElementById('timer-seconds').innerHTML = 0;
-        }
+                // congratulate the player
+                setScreenNotice('levelUp');
 
-        var startGameClock = () => {
-            gameClock = setInterval(function() {
-                gameTimer();
-            }, 1000);
+                // update the time limit for this level
+                setLevelTime();
+
+                // reset game clock to new level time
+                resetGameClock();
+
+                // wait 1 second,
+                setTimeout( () => {
+                    // remove overlay
+                    setScreenNotice('none');
+
+                    // start clock
+                    startGameClock();
+                }, 1000)
+            }
+
+            showStartButton = () => {
+                pauseButton.className = 'hide';
+                startButton.className = '';
+            }
+
+            showPauseButton = () => {
+                pauseButton.className = '';
+                startButton.className = 'hide';
+            }
+
+            /********** CLOCK LOGIC **************/
+            var setGameClock = () => {
+                // set game time to the current level's time
+                gameTime = levelTime;
+
+                // display game time
+                secondsDisplay.innerHTML = formatSeconds(gameTime);
+            }
+
+            var resetGameClock = () => {
+                // stop the timer
+                clearInterval(gameClock);
+
+                // stop any dancing moles
+                clearTimeout(danceClock);
+
+                // set game time to the current level's time
+                gameTime = levelTime;
+
+                // display game time
+                secondsDisplay.innerHTML = formatSeconds(levelTime);
+            }
+
+            var startGameClock = () => {
+                gameClock = setInterval(function() {
+                    gameTimer();
+                }, 1000);
+            }
 
             var gameTimer = () => {
+                if(gameTime <= 6 && gameTime > 0) {
+                    setTimerAlert();
+                } 
+                
                 if(gameTime === 0) {
                     stopGameClock();
+                    resetTimerAlert();
+                    setScreenNotice('gameOver');
                 } else {
                     gameTime--;
-                    document.getElementById("timer-seconds").innerHTML = gameTime;
+                    secondsDisplay.innerHTML = formatSeconds(gameTime);
                 }
             }
-        }
 
-        var stopGameClock = () => {
-            // stop the timer
-            clearInterval(gameClock);
+            var stopGameClock = () => {
+                // stop the timer
+                clearInterval(gameClock);
 
-            // reset the UI clock to zero
-            document.getElementById("timer-seconds").innerHTML = 0;
-        }
+                // stop any dancing moles
+                clearTimeout(danceClock);
 
-        var pauseGameClock = () => {
-            clearInterval(gameClock);
-        }
+                // reset the UI clock to zero
+                secondsDisplay.innerHTML = '00';
+            }
 
+            var pauseGameClock = () => {
+                // stop the timer
+                clearInterval(gameClock);
 
-        /********** ATTACK LOGIC **************/
-        // get all the mole holes
-        var moleHoles = document.getElementsByClassName('mole-hole');
-        // loop through the mole holes and add event listener for onClick
-        for(i = 0; i < moleHoles.length; i++ ){
-            moleHoles[i].addEventListener("click", function(e) {
-                e.preventDefault();
+                // stop any dancing moles
+                clearTimeout(danceClock);
+            }
 
-                // check if we hit a mole
-                if (event.target.matches('.mole')){
-                    // remove the mole
-                    removeMoles();
-                    // record a hit
-                    onScore(e.target.id);
+            var setTimerAlert = () => {
+                gameTimeDisplay.className = 'red'; // sets new class to the timer
+            }
+
+            var resetTimerAlert = () => {
+                gameTimeDisplay.className = ''; // clears class of the timer
+            }
+
+            var setLevelTime = () => {
+                levelTime = 60 - ((level - 1) * 5); /* level 1 gets 60 seconds, each progressive level loses 5 seconds */
+            }
+
+            var formatSeconds = seconds => {
+                return ('0' + seconds).substr(-2);
+            }
+
+            /********** ATTACK LOGIC **************/
+            // get all the mole holes
+            var moleHoles = document.getElementsByClassName('mole-hole');
+            // loop through the mole holes and add event listener for onClick
+            for(i = 0; i < moleHoles.length; i++ ){
+                moleHoles[i].addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // check if we hit a mole
+                    if (event.target.matches('.mole')){
+                        // remove the mole
+                        removeMoles();
+                        // record a hit
+                        onScore(e.target.id);
+                    } else {
+                        // record a miss
+                        onMiss(e.target.id);
+                    }
+                });
+            };      
+
+            var onScore = id => {
+                //stop the mole dance so he doesn't move again too soon, although...it would add some difficulty to the game!
+                clearTimeout(danceClock);
+
+                // add a point to the score variable
+                score++;
+                
+                // display new score
+                scoreDisplay.innerHTML = score;
+
+                // did we level up yet?
+                if (score % 10 === 0) {
+                    levelUp();
+                }
+                
+                // start mole dance if there is time left in the game
+                if (gameTime) {
+                    startMoleDance();
+                }
+            }
+
+            var onMiss = id => {
+                // add a point to the missed attack variable
+                missed++;
+            }
+
+            /********** BUTTON LOGIC **************/
+            // confirmed es6 arrow functions work in IE11 https://caniuse.com/#search=es6%20arrow
+            var onPause = () => {
+                // toggle pause/start buttons display
+                showStartButton();
+
+                // stop the timer
+                pauseGameClock();
+
+                // set paused flag in case we start back up
+                isGamePaused = true;
+
+                // clear the moles
+                removeMoles();
+            }  
+
+            var onStart = () => {
+                // toggle pause/start buttons display
+                showPauseButton();
+
+                if (isGamePaused) {
+                    // un-pause
+                    isGamePaused = false;
+
+                    // restart the timer
+                    startGameClock();
                 } else {
-                    // record a miss
-                    onMiss(e.target.id);
+                    // set the timer to current level default time
+                    setGameClock();
+
+                    // start the timer
+                    startGameClock();
                 }
-            });
-        };      
 
-        var onScore = id => {
-            console.log('Hit on', id);
-
-            // add a point to the score variable
-            score++;
-            
-            // display new score
-            document.getElementById('score-label').innerHTML = score;
-            
-            // start mole dance if there is time left in the game
-            if (gameTime) {
+                // start the moles
                 startMoleDance();
-            }
-        }
+            }  
 
-        var onMiss = id => {
-            console.log('Missed on', id);
-            // add a point to the missed attack variable
-            missed++;
-        }
+            var onReset = () => {
+                // stop game clock
+                stopGameClock();
 
-        /********** BUTTON LOGIC **************/
-        // confirmed es6 arrow functions work in IE11 https://caniuse.com/#search=es6%20arrow
-        var onPause = () => {
-            // stop the timer
-            pauseGameClock();
+                // reset level, in part so we can set clock back to level 1 time
+                level = defaultLevel;
 
-            // set paused flag in case we start back up
-            isGamePaused = true;
+                // update the display
+                levelDisplay.innerHTML = level;
 
-            // clear the moles
-            removeMoles();
-        }  
+                // update the time limit for this level
+                setLevelTime();
 
-        var onStart = () => {
-            if (isGamePaused) {
-                // un-pause
+                // reset game clock
+                resetGameClock();
+
+                // clear the moles
+                removeMoles();
+
+                // reset score
+                score = defaultScore;
+                scoreDisplay.innerHTML = score;
+
+                // reset missed
+                missed = defaultMissed;
+
+                // make sure we are un-paused
                 isGamePaused = false;
 
-                // restart the timer
-                startGameClock();
-            } else {
-                // set the timer to current level default time
-                setGameClock();
+                // show start button
+                showStartButton();
 
-                // start the timer
-                startGameClock();
+                // remove any notices
+                setScreenNotice('none');
+            }  
+
+            /********** MOLE LOGIC **************/
+            var startMoleDance = () => {
+                // hide any moles...maybe user hit start twice
+                removeMoles();
+                
+                // pick a hole for the mole
+                var moleHole = Math.floor((Math.random() * 7) + 1);
+
+                // display the mole by adding .mole to the hole
+                addMoles(moleHole);
+
+                // get random amount of time per the requirements
+                var danceTime = Math.floor((Math.random() * 4) + 1) * 1000; // let the mole dance for 1-5 seconds
+                // start dance timer
+                    danceClock = setTimeout( () => {
+                        // when time is up, clear the .mole from the hole
+                        // and start mole dance again, if game time has not expired
+                        if (gameTime) {
+                            startMoleDance();
+                        }
+                    }, danceTime);
             }
 
-            // start the moles
-            startMoleDance();
-        }  
-
-        var onReset = () => {
-            // stop game clock
-            stopGameClock();
-
-            // reset level, in part so we can set clock back to level 1 time
-            console.log('Resetting level to', defaultLevel);
-            level = defaultLevel;
-
-            // reset game clock
-            resetGameClock();
-
-            // clear the moles
-            console.log('Clearing moles');
-            removeMoles();
-
-            // reset score
-            console.log('Resetting score to', defaultScore);
-            score = defaultScore;
-            document.getElementById('score-label').innerHTML = score;
-
-            // reset missed
-            console.log('Resetting missed to', defaultMissed);
-            missed = defaultMissed;
-
-            // make sure we are un-paused
-            isGamePaused = false;
-        }  
-
-        /********** MOLE LOGIC **************/
-        var startMoleDance = () => {
-            // hide any moles...maybe user hit start twice
-            removeMoles();
-
-            console.log('Here comes the Mole');
-            
-            // pick a hole for the mole
-            var moleHole = Math.floor((Math.random() * 7) + 1);
-
-            // display the mole by adding .mole to the hole
-            addMoles(moleHole);
-
-            // start dance timer
-                // when time is up, clear the .mole from the hole
-                // and start mole dance again, if game time has not expired
-        }
-
-        var addMoles = id => {
-            var moleHole = document.getElementById('hole-' + id); // get the hole we want
-            moleHole.className = 'mole-hole mole'; // sets new class to the hole
-        }
-
-        var removeMoles = () => {
-            // get all the moles
-            var moles = document.getElementsByClassName('mole');
-            console.log('Looks like we have ' + moles.length + ' moles to clear');
-
-            // loop through the moles and remove them
-            for(i = 0; i < moles.length; i++ ){
-                moles[i].className = 'mole-hole'; // sets class back to only the hole
+            var addMoles = id => {
+                var moleHole = document.getElementById('hole-' + id); // get the hole we want
+                moleHole.className = 'mole-hole mole'; // sets new class to the hole
             }
-        }
-    </script>
+
+            var removeMoles = () => {
+                // get all the moles
+                var moles = document.getElementsByClassName('mole');
+
+                // loop through the moles and remove them
+                for(i = 0; i < moles.length; i++ ){
+                    moles[i].className = 'mole-hole'; // sets class back to only the hole
+                }
+            }
+        </script>
+    </body>
 </html>
