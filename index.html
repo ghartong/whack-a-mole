@@ -2,11 +2,13 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <link rel="shortcut icon" href="/favicon.ico">
+        <link rel="apple-touch-icon" sizes="180x180" href="./assets/icons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16x16.png">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#000000">
-        <link rel="manifest" href="/manifest.json">
-        <title>Whack-a-mole GH</title>
+        <link rel="manifest" href="./manifest.json">
+        <title>Whack-a-Mole</title>
         <style>
             body {
                 /* page reset */
@@ -50,9 +52,10 @@
                 text-align: center;
             }
             #game-footer {
-                background-color: brown;
+                background-color: black;
                 color: black;
                 padding: 25px;
+                text-align: center;
             }
             #game-screen {
                 background-color: green;
@@ -85,6 +88,15 @@
                 text-align: center;
                 text-decoration: none;
                 width: 45%;
+            }
+            .mole-hole:active {
+                background-color: rgba(255, 0, 0, 0.7);
+                border: 1px solid red;
+            }
+            .mole:active {
+                background-color: rgba(0, 255, 0, 0.7);
+                border: 1px solid lime;
+                color: lime;
             }
             .mole:before {
                 content: "MOLE"
@@ -143,8 +155,21 @@
                 0%   {font-size: 0;}
                 100% {font-size: 8vw;}
             }
+
+            /* made with CSS Button Generator https://www.bestcssbuttongenerator.com/#/14 */
+            #btn-pause { -moz-box-shadow: 0px 1px 0px 0px #fff6af; -webkit-box-shadow: 0px 1px 0px 0px #fff6af; box-shadow: 0px 1px 0px 0px #fff6af; background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffec64), color-stop(1, #ffab23)); background:-moz-linear-gradient(top, #ffec64 5%, #ffab23 100%); background:-webkit-linear-gradient(top, #ffec64 5%, #ffab23 100%); background:-o-linear-gradient(top, #ffec64 5%, #ffab23 100%); background:-ms-linear-gradient(top, #ffec64 5%, #ffab23 100%); background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffec64', endColorstr='#ffab23',GradientType=0); background-color:#ffec64; -moz-border-radius:6px; -webkit-border-radius:6px; border-radius:6px; border:1px solid #ffaa22; display:inline-block; cursor:pointer; color:#333333; font-family:Arial; font-size:15px; font-weight:bold; padding:6px 24px; text-decoration:none; text-shadow:0px 1px 0px #ffee66; }
+            #btn-pause:active { position:relative; top:1px; }
+            #btn-start { -moz-box-shadow: 0px 1px 0px 0px #a4e271; -webkit-box-shadow: 0px 1px 0px 0px #a4e271; box-shadow: 0px 1px 0px 0px #a4e271; background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #89c403), color-stop(1, #77a809)); background:-moz-linear-gradient(top, #89c403 5%, #77a809 100%); background:-webkit-linear-gradient(top, #89c403 5%, #77a809 100%); background:-o-linear-gradient(top, #89c403 5%, #77a809 100%); background:-ms-linear-gradient(top, #89c403 5%, #77a809 100%); background:linear-gradient(to bottom, #89c403 5%, #77a809 100%); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#89c403', endColorstr='#77a809',GradientType=0); background-color:#89c403; -moz-border-radius:6px; -webkit-border-radius:6px; border-radius:6px; border:1px solid #74b807; display:inline-block; cursor:pointer; color:#ffffff; font-family:Arial; font-size:15px; font-weight:bold; padding:6px 29px; text-decoration:none; text-shadow:0px 1px 0px #528009; }
+            #btn-start:active { position:relative; top:1px; }
+            #btn-reset { -moz-box-shadow: 0px 1px 0px 0px #8a2a21; -webkit-box-shadow: 0px 1px 0px 0px #8a2a21; box-shadow: 0px 1px 0px 0px #8a2a21; background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #c62d1f), color-stop(1, #f24437)); background:-moz-linear-gradient(top, #c62d1f 5%, #f24437 100%); background:-webkit-linear-gradient(top, #c62d1f 5%, #f24437 100%); background:-o-linear-gradient(top, #c62d1f 5%, #f24437 100%); background:-ms-linear-gradient(top, #c62d1f 5%, #f24437 100%); background:linear-gradient(to bottom, #c62d1f 5%, #f24437 100%); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c62d1f', endColorstr='#f24437',GradientType=0); background-color:#c62d1f; -moz-border-radius:6px; -webkit-border-radius:6px; border-radius:6px; border:1px solid #d02718; display:inline-block; cursor:pointer; color:#ffffff; font-family:Arial; font-size:15px; font-weight:bold; padding:6px 24px; text-decoration:none; text-shadow:0px 1px 0px #810e05; }
+            #btn-reset:active { position:relative; top:1px; }
+            /* END: made with CSS Button Generator https://www.bestcssbuttongenerator.com/#/14 */
+
+            button:focus {
+                outline: 0;
+            }
             button.hide {
-                display: none;
+                display: none !important;
             }
             .red {
                 color: red !important;
@@ -180,14 +205,6 @@
         </div>
 
         <script>
-            // TODO
-            /*
-                - animate moles
-                - hide or disable buttons when they shouldn't be clicked...no pause unless game is started, etc.
-                - pretty buttons
-                - format single digit seconds on game clock
-            */
-
             /********** VARIABLES **************/
             var defaultLevel = 1; /* default value, so we can reset to default later */
             var defaultScore = 0; /* default value, so we can reset to default later */
@@ -206,6 +223,8 @@
             var levelDisplay = document.getElementById('level-label'); // get the Level display element 
             var pauseButton = document.getElementById('btn-pause'); // get the pause button
             var startButton = document.getElementById('btn-start'); // get the start button
+            var secondsDisplay = document.getElementById('timer-seconds'); // get the seconds element of the timer
+            var scoreDisplay = document.getElementById('score-label'); // get the score display element
 
             /********** GAME LOGIC **************/
             var setScreenNotice = noticeType => {
@@ -264,7 +283,7 @@
                 gameTime = levelTime;
 
                 // display game time
-                document.getElementById('timer-seconds').innerHTML = gameTime;
+                secondsDisplay.innerHTML = formatSeconds(gameTime);
             }
 
             var resetGameClock = () => {
@@ -278,7 +297,7 @@
                 gameTime = levelTime;
 
                 // display game time
-                document.getElementById('timer-seconds').innerHTML = levelTime;
+                secondsDisplay.innerHTML = formatSeconds(levelTime);
             }
 
             var startGameClock = () => {
@@ -298,7 +317,7 @@
                     setScreenNotice('gameOver');
                 } else {
                     gameTime--;
-                    document.getElementById("timer-seconds").innerHTML = gameTime;
+                    secondsDisplay.innerHTML = formatSeconds(gameTime);
                 }
             }
 
@@ -310,7 +329,7 @@
                 clearTimeout(danceClock);
 
                 // reset the UI clock to zero
-                document.getElementById("timer-seconds").innerHTML = 0;
+                secondsDisplay.innerHTML = '00';
             }
 
             var pauseGameClock = () => {
@@ -333,12 +352,16 @@
                 levelTime = 60 - ((level - 1) * 5); /* level 1 gets 60 seconds, each progressive level loses 5 seconds */
             }
 
+            var formatSeconds = seconds => {
+                return ('0' + seconds).substr(-2);
+            }
+
             /********** ATTACK LOGIC **************/
             // get all the mole holes
             var moleHoles = document.getElementsByClassName('mole-hole');
             // loop through the mole holes and add event listener for onClick
             for(i = 0; i < moleHoles.length; i++ ){
-                moleHoles[i].addEventListener("click", function(e) {
+                moleHoles[i].addEventListener('click', function(e) {
                     e.preventDefault();
 
                     // check if we hit a mole
@@ -355,8 +378,6 @@
             };      
 
             var onScore = id => {
-                console.log('Hit on', id);
-
                 //stop the mole dance so he doesn't move again too soon, although...it would add some difficulty to the game!
                 clearTimeout(danceClock);
 
@@ -364,11 +385,10 @@
                 score++;
                 
                 // display new score
-                document.getElementById('score-label').innerHTML = score;
+                scoreDisplay.innerHTML = score;
 
                 // did we level up yet?
                 if (score % 10 === 0) {
-                    console.log('Level Up!!!');
                     levelUp();
                 }
                 
@@ -379,7 +399,6 @@
             }
 
             var onMiss = id => {
-                console.log('Missed on', id);
                 // add a point to the missed attack variable
                 missed++;
             }
@@ -427,7 +446,6 @@
                 stopGameClock();
 
                 // reset level, in part so we can set clock back to level 1 time
-                console.log('Resetting level to', defaultLevel);
                 level = defaultLevel;
 
                 // update the display
@@ -440,20 +458,20 @@
                 resetGameClock();
 
                 // clear the moles
-                console.log('Clearing moles');
                 removeMoles();
 
                 // reset score
-                console.log('Resetting score to', defaultScore);
                 score = defaultScore;
-                document.getElementById('score-label').innerHTML = score;
+                scoreDisplay.innerHTML = score;
 
                 // reset missed
-                console.log('Resetting missed to', defaultMissed);
                 missed = defaultMissed;
 
                 // make sure we are un-paused
                 isGamePaused = false;
+
+                // show start button
+                showStartButton();
 
                 // remove any notices
                 setScreenNotice('none');
@@ -463,8 +481,6 @@
             var startMoleDance = () => {
                 // hide any moles...maybe user hit start twice
                 removeMoles();
-
-                console.log('Here comes the Mole');
                 
                 // pick a hole for the mole
                 var moleHole = Math.floor((Math.random() * 7) + 1);
@@ -492,7 +508,6 @@
             var removeMoles = () => {
                 // get all the moles
                 var moles = document.getElementsByClassName('mole');
-                console.log('Looks like we have ' + moles.length + ' moles to clear');
 
                 // loop through the moles and remove them
                 for(i = 0; i < moles.length; i++ ){
