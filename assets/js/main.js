@@ -37,6 +37,10 @@ var setScreenNotice = function setScreenNotice(noticeType) {
             noticeScreen.className = 'level-up';
             break;
 
+        case 'pause':
+            noticeScreen.className = 'pause';
+            break;
+
         default:
             noticeScreen.className = '';
     }
@@ -241,6 +245,9 @@ var onMiss = function onMiss(id) {
 var onPause = function onPause() {
     // toggle pause/start buttons display
     showStartButton(); 
+
+    // show pause notices
+    setScreenNotice('pause');
     
     // stop the timer
     pauseGameClock(); 
@@ -253,6 +260,9 @@ var onPause = function onPause() {
 };
 
 var onStart = function onStart() {
+    // remove any notices
+    setScreenNotice('none');
+
     // toggle pause/start buttons display
     showPauseButton();
 
