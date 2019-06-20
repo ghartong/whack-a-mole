@@ -21,6 +21,7 @@ var pauseButton = document.getElementById('btn-pause'); /* get the pause button 
 var startButton = document.getElementById('btn-start'); /* get the start button */
 var secondsDisplay = document.getElementById('timer-seconds'); /* get the seconds element of the timer */
 var scoreDisplay = document.getElementById('score-label'); /* get the score display element */
+var summaryDisplay = document.getElementById('game-summary'); /* get the summary element */
 
 /*
 * GAME LOGIC 
@@ -30,19 +31,24 @@ var setScreenNotice = function setScreenNotice(noticeType) {
     // sets class of the specified notice
     switch (noticeType) {
         case 'gameOver':
-            noticeScreen.className = 'game-over';
+            noticeScreen.className = 'notice-overlay game-over';
+            summaryDisplay.className = '';
+            summaryDisplay.innerHTML = 'Missed Attacks: ' + missed;
             break;
 
         case 'levelUp':
-            noticeScreen.className = 'level-up';
+            noticeScreen.className = 'notice-overlay level-up';
+            summaryDisplay.className = 'hide';
             break;
 
         case 'pause':
-            noticeScreen.className = 'pause';
+            noticeScreen.className = 'notice-overlay pause';
+            summaryDisplay.className = 'hide';
             break;
 
         default:
             noticeScreen.className = '';
+            summaryDisplay.className = 'hide';
     }
 };
 
